@@ -30,14 +30,14 @@ class Activity
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $meetingDate = null;
 
-    #[ORM\ManyToOne(inversedBy: 'activities')]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
     /**
      * @var Collection<int, User>
      */
-    #[ORM\ManyToMany(targetEntity: User::class)]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'activities')]
     private Collection $participants;
 
     public function __construct()

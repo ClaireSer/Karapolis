@@ -42,7 +42,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Activity>
      */
-    #[ORM\OneToMany(targetEntity: Activity::class, mappedBy: 'author')]
+    #[ORM\ManyToMany(targetEntity: Activity::class, mappedBy: 'participants')]
     private Collection $activities;
 
     public function __construct()
@@ -149,7 +149,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->activities->contains($activity)) {
             $this->activities->add($activity);
-            $activity->setAuthor($this);
+            $activity->addParticipant($this);
         }
 
         return $this;
@@ -158,10 +158,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeActivity(Activity $activity): static
     {
         if ($this->activities->removeElement($activity)) {
-            // set the owning side to null (unless already changed)
-            if ($activity->getAuthor() === $this) {
-                $activity->setAuthor(null);
-            }
+            $activity->removeParticipant($this);
         }
 
         return $this;

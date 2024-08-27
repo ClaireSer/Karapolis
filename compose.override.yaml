@@ -18,7 +18,7 @@ services:
 ###< symfony/mailer ###
 
 ###> symfony/mercure-bundle ###
-  mercure:
-    ports:
-      - "80"
+  # mercure:
+  #   ports:
+  #     - "80"
 ###< symfony/mercure-bundle ###
