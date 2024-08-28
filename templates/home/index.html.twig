@@ -9,22 +9,26 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>ACTIVITIES</h1>
+    <h1>CATEGORIES</h1>
 
     <ul>
-        {% for activity in activities %}
-        
-            <li>Author : {{ activity.author.email }}</li>
-            <li>Name : {{ activity.name }}</li>
-            <li>Description : {{ activity.description }}</li>
-            <li>Location : {{ activity.location }}</li>
-            <li>Date : {{ activity.meetingDate|date('j/m/Y') }}</li>
-            <li>Participants: </li>
-
-            {% for participant in activity.participants %}
-                - {{ participant.email }} <br>
-            {% endfor %}
-            
+        {% for category in categories %}
+            {% if category.parent is null %}
+                <li>
+                    <a href="{{ path('app_activities', {'id': category.id}) }}">
+                        {{ category.name }}
+                    </a>
+                </li>
+                {% for child in category.children %}
+                    <ul>
+                        <li>
+                            <a href="{{ path('app_activities', {'id': child.id}) }}">
+                                {{ child.name }}
+                            </a>
+                        </li>
+                    </ul>
+                {% endfor %}
+            {% endif %}
         {% endfor %}
     </ul>
 </div>

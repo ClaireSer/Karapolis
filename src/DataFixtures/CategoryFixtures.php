@@ -4,16 +4,19 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class CategoryFixtures extends Fixture
 {
+    CONST PINGPONG_CATEGORY_REFERENCE = "PINGPONG_CATEGORY_REFERENCE";
+    CONST SPORT_CATEGORY_REFERENCE = "SPORT_CATEGORY_REFERENCE";
+
     public function load(ObjectManager $manager): void
     {
         $parentCategory1 = new Category();
         $parentCategory1->setName("Sport");
         $manager->persist($parentCategory1);
+        $this->addReference(self::SPORT_CATEGORY_REFERENCE, $parentCategory1);
 
         $parentCategory2 = new Category();
         $parentCategory2->setName("Art");
@@ -32,6 +35,7 @@ class CategoryFixtures extends Fixture
             ->setParent($parentCategory1)
         ;
         $manager->persist($childCategory2);
+        $this->addReference(self::PINGPONG_CATEGORY_REFERENCE, $childCategory2);
 
         $childCategory3 = new Category();
         $childCategory3

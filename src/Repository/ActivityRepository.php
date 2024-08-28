@@ -16,20 +16,19 @@ class ActivityRepository extends ServiceEntityRepository
         parent::__construct($registry, Activity::class);
     }
 
-    //    /**
-    //     * @return Activity[] Returns an array of Activity objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+       /**
+        * @return Activity[] Returns an array of Activity objects
+        */
+       public function findByCategory($categoryId): array
+       {
+            return $this->createQueryBuilder('a')
+                ->leftJoin('a.categories', 'c')
+                ->andWhere('c.id IN(:val)')
+                ->setParameter('val', $categoryId)
+                ->getQuery()
+                ->getResult()
+            ;
+       }
 
     //    public function findOneBySomeField($value): ?Activity
     //    {

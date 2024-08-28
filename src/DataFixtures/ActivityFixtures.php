@@ -10,8 +10,6 @@ use Doctrine\Persistence\ObjectManager;
 
 class ActivityFixtures extends Fixture implements DependentFixtureInterface
 {
-    CONST PINGPONG_REFERENCE = "PINGPONG_REFERENCE";
-
     public function load(ObjectManager $manager): void
     {
         $activity = new Activity();
@@ -20,11 +18,11 @@ class ActivityFixtures extends Fixture implements DependentFixtureInterface
             ->setDescription("Venez nombreux !")
             ->setMeetingDate(new DateTime("2024/09/15"))
             ->setLocation("Lausanne")
+            ->addCategory($this->getReference(CategoryFixtures::PINGPONG_CATEGORY_REFERENCE))
+            ->addCategory($this->getReference(CategoryFixtures::SPORT_CATEGORY_REFERENCE))
             ->setAuthor($this->getReference(UserFixtures::AUTHOR_REFERENCE))
             ->addParticipant($this->getReference(UserFixtures::PARTICIPANT_REFERENCE))
         ;
-        $this->addReference(self::PINGPONG_REFERENCE, $activity);
-
         $manager->persist($activity);
 
         $manager->flush();

@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #FFFFFF; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>ACTIVITIES</h1>
+    <h2>{{ categoryName }}</h2>
+
+    <ul>
+        {% for activity in activities %}
+        
+            <li>Author : {{ activity.author.email }}</li>
+            <li>Name : {{ activity.name }}</li>
+            <li>Description : {{ activity.description }}</li>
+            <li>Location : {{ activity.location }}</li>
+            <li>Date : {{ activity.meetingDate|date('j/m/Y') }}</li>
+            <li>Participants: </li>
+
+            {% for participant in activity.participants %}
+                - {{ participant.email }} <br>
+            {% endfor %}
+            
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
