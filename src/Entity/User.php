@@ -45,6 +45,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Activity::class, mappedBy: 'participants')]
     private Collection $activities;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $gender = null;
+
     public function __construct()
     {
         $this->activities = new ArrayCollection();
@@ -160,6 +163,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->activities->removeElement($activity)) {
             $activity->removeParticipant($this);
         }
+
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?string $gender): static
+    {
+        $this->gender = $gender;
 
         return $this;
     }

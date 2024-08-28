@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Activity;
 use App\Entity\Category;
 use App\Repository\ActivityRepository;
 use App\Repository\CategoryRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -32,5 +34,14 @@ class HomeController extends AbstractController
             'categoryName' => $category->getName(),
             'activities' => $activities,
         ]);
+    }
+
+    #[Route('/participate/{id}', name: 'app_participate')]
+    public function participate(Activity $activity, EntityManagerInterface $em): Response
+    {
+        $activity->addParticipant($this->getUser());
+        $em->flush();
+
+        return $this->redirectToRoute('app_home');
     }
 }

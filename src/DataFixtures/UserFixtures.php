@@ -23,6 +23,7 @@ class UserFixtures extends Fixture
         $participant
             ->setEmail("participant@hello.com")
             ->setPassword($this->userPasswordHasher->hashPassword($participant, "hello"))
+            ->setGender("f")
         ;
         $manager->persist($participant);
         $this->addReference(self::PARTICIPANT_REFERENCE, $participant);
@@ -31,6 +32,7 @@ class UserFixtures extends Fixture
         $author
             ->setEmail("author@hello.com")
             ->setPassword($this->userPasswordHasher->hashPassword($author, "hello"))
+            ->setGender("m")
         ;
         $manager->persist($author);
         $this->addReference(self::AUTHOR_REFERENCE, $author);
