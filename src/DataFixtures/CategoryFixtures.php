@@ -10,6 +10,9 @@ class CategoryFixtures extends Fixture
 {
     CONST PINGPONG_CATEGORY_REFERENCE = "PINGPONG_CATEGORY_REFERENCE";
     CONST SPORT_CATEGORY_REFERENCE = "SPORT_CATEGORY_REFERENCE";
+    CONST ART_CATEGORY_REFERENCE = "ART_CATEGORY_REFERENCE";
+    CONST KARAOKE_CATEGORY_REFERENCE = "KARAOKE_CATEGORY_REFERENCE";
+    CONST YOGA_CATEGORY_REFERENCE = "YOGA_CATEGORY_REFERENCE";
 
     public function load(ObjectManager $manager): void
     {
@@ -21,6 +24,7 @@ class CategoryFixtures extends Fixture
         $parentCategory2 = new Category();
         $parentCategory2->setName("Art");
         $manager->persist($parentCategory2);
+        $this->addReference(self::ART_CATEGORY_REFERENCE, $parentCategory2);
 
         $childCategory1 = new Category();
         $childCategory1
@@ -28,6 +32,7 @@ class CategoryFixtures extends Fixture
             ->setParent($parentCategory1)
         ;
         $manager->persist($childCategory1);
+        $this->addReference(self::YOGA_CATEGORY_REFERENCE, $childCategory1);
 
         $childCategory2 = new Category();
         $childCategory2
@@ -43,6 +48,7 @@ class CategoryFixtures extends Fixture
             ->setParent($parentCategory2)
         ;
         $manager->persist($childCategory3);
+        $this->addReference(self::KARAOKE_CATEGORY_REFERENCE, $childCategory3);
 
         $manager->flush();
     }

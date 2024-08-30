@@ -16,11 +16,28 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class HomeController extends AbstractController
 {
     #[Route('/home', name: 'app_home')]
-    public function index(CategoryRepository $categoryRepository): Response
+    public function index(ActivityRepository $activityRepository): Response
+    {
+        $nextActivities = $activityRepository->findBy(
+            criteria: [],
+            orderBy: ['meetingDate' => 'ASC'],
+            limit: 9
+        );
+        $nonExpiredNextActivities = array_filter($nextActivities, function ($item) {               
+            return $item->isExpired() === false;
+        }); 
+
+        return $this->render('home/index.html.twig', [
+            'nonExpiredNextActivities' => $nonExpiredNextActivities
+        ]);
+    }
+
+    #[Route('/categories', name: 'app_categories')]
+    public function getCategories(CategoryRepository $categoryRepository): Response
     {
         $categories = $categoryRepository->findAll();
 
-        return $this->render('home/index.html.twig', [
+        return $this->render('categories/index.html.twig', [
             'categories' => $categories,
         ]);
     }
@@ -30,7 +47,7 @@ class HomeController extends AbstractController
     {
         $activities = $activityRepository->findByCategory($category->getId());
 
-        return $this->render('home/activities.html.twig', [
+        return $this->render('activities/index.html.twig', [
             'categoryName' => $category->getName(),
             'activities' => $activities,
         ]);

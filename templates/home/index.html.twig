@@ -4,27 +4,43 @@
 
 {% block body %}
 <div class="container content">
-    <h1>CATEGORIES</h1>
+    <h1>Next activities</h1>
 
-    <ul>
-        {% for category in categories %}
-            {% if category.parent is null %}
-                <li>
-                    <a href="{{ path('app_activities', {'id': category.id}) }}">
-                        {{ category.name }}
-                    </a>
-                </li>
-                {% for child in category.children %}
-                    <ul>
-                        <li>
-                            <a href="{{ path('app_activities', {'id': child.id}) }}">
-                                {{ child.name }}
-                            </a>
-                        </li>
-                    </ul>
+    {% if nonExpiredNextActivities %}
+        <ul class="d-flex flex-row">
+        {% for activity in nonExpiredNextActivities %}
+            <div class="p-3 m-3">
+                <strong>{{ activity.name }}</strong>
+                <li>{{ activity.meetingDate|date('j/m/Y') }}</li>
+                <li>{{ activity.location }}</li>
+                <li>Description : {{ activity.description }}</li>
+                <li>Participants: </li>
+
+                {% for participant in activity.participants %}
+                    - {{ participant.email }} 
+                    {% if participant.gender == 'f' %}
+                        <i class="bi bi-gender-female"></i>
+                    {% elseif participant.gender == 'm' %}
+                        <i class="bi bi-gender-male"></i>
+                    {% else %}
+                        <i class="bi bi-gender-neuter"></i>
+                    {% endif %}
+                    <br>
                 {% endfor %}
-            {% endif %}
+
+                <div>
+                    <a class="btn btn-primary" href="{{ path('app_participate', {'id': activity.id }) }}" role="button">Partipate!</a>
+                </div>
+
+            </div>
         {% endfor %}
-    </ul>
+        </ul>
+
+    {% else %}
+        There is no activity for now.
+        <div>
+            <a class="btn btn-primary" href="#" role="button">Create your own!</a>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}

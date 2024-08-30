@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+<div class="container content">
+    <h1>Categories</h1>
+
+    <ul>
+        {% for category in categories %}
+            {% if category.parent is null %}
+                <li>
+                    <a href="{{ path('app_activities', {'id': category.id}) }}">
+                        {{ category.name }}
+                    </a>
+                </li>
+                {% for child in category.children %}
+                    <ul>
+                        <li>
+                            <a href="{{ path('app_activities', {'id': child.id}) }}">
+                                {{ child.name }}
+                            </a>
+                        </li>
+                    </ul>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

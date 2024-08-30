@@ -105,6 +105,13 @@ class Activity
         return $this;
     }
 
+    public function isExpired(): bool
+    {
+        $today = new \DateTime("now");
+
+        return $this->meetingDate->format('Y-m-d') < $today->format('Y-m-d');
+    }
+
     public function getAuthor(): ?User
     {
         return $this->author;
